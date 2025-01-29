@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro de Servicios - Vulcanizadora Llanos</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@7.18.6/babel.min.js" crossorigin></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin: auto;
+        }
+
+        div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function Input({ label, value, onChange, type = "text", required = false }) {
+            return (
+                <div>
+                    <label>{label}</label>
+                    <input 
+                        type={type} 
+                        value={value}
+                        onChange={onChange}
+                        required={required}
+                    />
+                </div>
+            );
+        }
+
+        function TextArea({ label, value, onChange, required = false }) {
+            return (
+                <div>
+                    <label>{label}</label>
+                    <textarea 
+                        value={value}
+                        onChange={onChange}
+                        required={required}
+                    ></textarea>
+                </div>
+            );
+        }
+
+        function Select({ label, value, onChange, options, required = false }) {
+            return (
+                <div>
+                    <label>{label}</label>
+                    <select 
+                        value={value} 
+                        onChange={onChange} 
+                        required={required}
+                    >
+                        <option value="">Selecciona una opción</option>
+                        {options.map((option, index) => (
+                            <option key={index} value={option}>{option}</option>
+                        ))}
+                    </select>
+                </div>
+            );
+        }
+
+        function RegistroTrabajo() {
+            const [nombreServicio, setNombreServicio] = React.useState('');
+            const [descripcion, setDescripcion] = React.useState('');
+            const [empleado, setEmpleado] = React.useState('');
+            const [tareaAsignada, setTareaAsignada] = React.useState('');
+
+            const empleados = ['Mario Llanos Vera', 'Job David Llanos Gutiérrez', 'Héctor Llanos Vera'];
+            const tareas = ['Registrar trabajo', 'Asignar tarea', 'Generar reportes'];
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                alert(`Trabajo Registrado:\nNombre del servicio: ${nombreServicio}\nDescripción: ${descripcion}\nEmpleado: ${empleado}\nTarea Asignada: ${tareaAsignada}`);
+            };
+
+            return (
+                <div>
+                    <h2>Formulario de Registro de Servicios</h2>
+                    <form onSubmit={handleSubmit}>
+                        <Input 
+                            label="Nombre del Servicio:" 
+                            value={nombreServicio} 
+                            onChange={(e) => setNombreServicio(e.target.value)} 
+                            required
+                        />
+                        <TextArea 
+                            label="Descripción del Servicio:" 
+                            value={descripcion} 
+                            onChange={(e) => setDescripcion(e.target.value)} 
+                            required
+                        />
+                        <Select 
+                            label="Empleado Asignado:" 
+                            value={empleado} 
+                            onChange={(e) => setEmpleado(e.target.value)} 
+                            options={empleados} 
+                            required
+                        />
+                        <Select 
+                            label="Tarea Asignada:" 
+                            value={tareaAsignada} 
+                            onChange={(e) => setTareaAsignada(e.target.value)} 
+                            options={tareas} 
+                            required
+                        />
+                        <button type="submit">Registrar Trabajo</button>
+                    </form>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<RegistroTrabajo />, document.getElementById('root'));
+    </script>
+
+</body>
+
+</html>
+
