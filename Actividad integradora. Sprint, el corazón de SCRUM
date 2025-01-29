@@ -17,34 +17,30 @@
             margin: 0;
             background-color: #f4f4f4;
         }
-
-        form {
+        .form-container {
             background: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
-            margin: auto;
+            width: 300px;
         }
-
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
         div {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
-
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
         }
-
         input, textarea, select {
             width: 100%;
             padding: 8px;
             box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
         }
-
         button {
             background-color: #4CAF50;
             color: white;
@@ -54,121 +50,90 @@
             cursor: pointer;
             width: 100%;
         }
-
         button:hover {
             background-color: #45a049;
         }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
     </style>
 </head>
-
 <body>
+
     <div id="root"></div>
 
     <script type="text/babel">
-        function Input({ label, value, onChange, type = "text", required = false }) {
-            return (
-                <div>
-                    <label>{label}</label>
-                    <input 
-                        type={type} 
-                        value={value}
-                        onChange={onChange}
-                        required={required}
-                    />
-                </div>
-            );
-        }
+        const { useState } = React;
 
-        function TextArea({ label, value, onChange, required = false }) {
-            return (
-                <div>
-                    <label>{label}</label>
-                    <textarea 
-                        value={value}
-                        onChange={onChange}
-                        required={required}
-                    ></textarea>
-                </div>
-            );
-        }
-
-        function Select({ label, value, onChange, options, required = false }) {
-            return (
-                <div>
-                    <label>{label}</label>
-                    <select 
-                        value={value} 
-                        onChange={onChange} 
-                        required={required}
-                    >
-                        <option value="">Selecciona una opción</option>
-                        {options.map((option, index) => (
-                            <option key={index} value={option}>{option}</option>
-                        ))}
-                    </select>
-                </div>
-            );
-        }
-
-        function RegistroTrabajo() {
-            const [nombreServicio, setNombreServicio] = React.useState('');
-            const [descripcion, setDescripcion] = React.useState('');
-            const [empleado, setEmpleado] = React.useState('');
-            const [tareaAsignada, setTareaAsignada] = React.useState('');
+        function App() {
+            // Establecer estados para los campos
+            const [nombreServicio, setNombreServicio] = useState('');
+            const [descripcion, setDescripcion] = useState('');
+            const [empleado, setEmpleado] = useState('');
+            const [tareaAsignada, setTareaAsignada] = useState('');
 
             const empleados = ['Mario Llanos Vera', 'Job David Llanos Gutiérrez', 'Héctor Llanos Vera'];
             const tareas = ['Registrar trabajo', 'Asignar tarea', 'Generar reportes'];
 
+            // Manejar el submit
             const handleSubmit = (e) => {
                 e.preventDefault();
-                alert(`Trabajo Registrado:\nNombre del servicio: ${nombreServicio}\nDescripción: ${descripcion}\nEmpleado: ${empleado}\nTarea Asignada: ${tareaAsignada}`);
+                alert(`Trabajo Registrado:\nServicio: ${nombreServicio}\nDescripción: ${descripcion}\nEmpleado: ${empleado}\nTarea Asignada: ${tareaAsignada}`);
             };
 
             return (
-                <div>
+                <div className="form-container">
                     <h2>Formulario de Registro de Servicios</h2>
                     <form onSubmit={handleSubmit}>
-                        <Input 
-                            label="Nombre del Servicio:" 
-                            value={nombreServicio} 
-                            onChange={(e) => setNombreServicio(e.target.value)} 
-                            required
-                        />
-                        <TextArea 
-                            label="Descripción del Servicio:" 
-                            value={descripcion} 
-                            onChange={(e) => setDescripcion(e.target.value)} 
-                            required
-                        />
-                        <Select 
-                            label="Empleado Asignado:" 
-                            value={empleado} 
-                            onChange={(e) => setEmpleado(e.target.value)} 
-                            options={empleados} 
-                            required
-                        />
-                        <Select 
-                            label="Tarea Asignada:" 
-                            value={tareaAsignada} 
-                            onChange={(e) => setTareaAsignada(e.target.value)} 
-                            options={tareas} 
-                            required
-                        />
+                        <div>
+                            <label>Nombre del Servicio:</label>
+                            <input 
+                                type="text" 
+                                value={nombreServicio} 
+                                onChange={(e) => setNombreServicio(e.target.value)} 
+                                required 
+                            />
+                        </div>
+                        <div>
+                            <label>Descripción del Servicio:</label>
+                            <textarea 
+                                value={descripcion} 
+                                onChange={(e) => setDescripcion(e.target.value)} 
+                                required 
+                            />
+                        </div>
+                        <div>
+                            <label>Empleado Asignado:</label>
+                            <select 
+                                value={empleado} 
+                                onChange={(e) => setEmpleado(e.target.value)} 
+                                required
+                            >
+                                <option value="">Selecciona una opción</option>
+                                {empleados.map((empleado, index) => (
+                                    <option key={index} value={empleado}>{empleado}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label>Tarea Asignada:</label>
+                            <select 
+                                value={tareaAsignada} 
+                                onChange={(e) => setTareaAsignada(e.target.value)} 
+                                required
+                            >
+                                <option value="">Selecciona una opción</option>
+                                {tareas.map((tarea, index) => (
+                                    <option key={index} value={tarea}>{tarea}</option>
+                                ))}
+                            </select>
+                        </div>
                         <button type="submit">Registrar Trabajo</button>
                     </form>
                 </div>
             );
         }
 
-        ReactDOM.render(<RegistroTrabajo />, document.getElementById('root'));
+        ReactDOM.render(<App />, document.getElementById('root'));
     </script>
-
 </body>
-
 </html>
+
 
